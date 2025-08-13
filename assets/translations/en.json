@@ -1,0 +1,9 @@
+{
+  "page1.title": "Page One",
+  "page1.body": "This is page one",
+  "page1.to_page2": "Go to page two",
+
+  "page2.title": "Page Two",
+  "page2.body": "This is page two",
+  "page2.back": "Back to page one"
+}
