@@ -1,16 +1,15 @@
-# f_easy_loc_reactive
+# LocaleRebuilder MVP
 
-An Easy Localization Example
+Минимальный тестовый проект, демонстрирующий, как корректно перестраивать экраны
+в стеке при смене локали с [easy_localization](https://pub.dev/packages/easy_localization).
 
-## Getting Started
+Фикс адресует проблему: при смене языка текущий экран обновляется,
+а экраны под ним — нет [см.](https://github.com/aissat/easy_localization/issues/370)
 
-This project is a starting point for a Flutter application.
+## Идея
+Создаём виджет-обёртку LocaleRebuilder, который:
+- подписывается на context.locale (через InheritedWidget внутри easy_localization);
+- только при фактической смене локали помечает всё поддерево как “грязное” 
+   (markNeedsBuild), вызывая перестройку всех потомков;
+- не вмешивается в обычный цикл build и не создаёт “шторм” перестроек.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
