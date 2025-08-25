@@ -57,11 +57,11 @@ Future<void> pumpMvpApp(WidgetTester tester) async {
     EasyLocalization(
       key: UniqueKey(), // новый инстанс на каждый тест
       supportedLocales: const [Locale('en'), Locale('ru')],
-      path: 'ignored',                 // не используется
+      path: 'ignored', // не используется
       fallbackLocale: const Locale('en'),
       startLocale: const Locale('en'),
-      saveLocale: false,               // никаких персистов между тестами
-      assetLoader: const TestInMemoryAssetLoader(),// мгновенные переводы
+      saveLocale: false, // никаких персистов между тестами
+      assetLoader: const TestInMemoryAssetLoader(), // мгновенные переводы
       child: const MyApp(),
     ),
   );
@@ -71,56 +71,54 @@ Future<void> pumpMvpApp(WidgetTester tester) async {
 }
 
 void main() {
-  testWidgets(
-    'Page below updates when locale is changed on top (RU)',
-        (tester) async {
-      await pumpMvpApp(tester);
+  testWidgets('Page below updates when locale is changed on top (RU)', (
+    tester,
+  ) async {
+    await pumpMvpApp(tester);
 
-      expect(find.text('This is page one'), findsOneWidget);
+    expect(find.text('This is page one'), findsOneWidget);
 
-      await tester.tap(find.byKey(const Key('goto_page2')));
-      await tester.pumpAndSettle();
-      expect(find.text('This is page two'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('goto_page2')));
+    await tester.pumpAndSettle();
+    expect(find.text('This is page two'), findsOneWidget);
 
-      await tester.tap(find.byKey(const Key('btn_ru_page2')));
-      await tester.pumpAndSettle();
-      expect(find.text('Это вторая страница'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('btn_ru_page2')));
+    await tester.pumpAndSettle();
+    expect(find.text('Это вторая страница'), findsOneWidget);
 
-      await tester.tap(find.byKey(const Key('back_to_page1')));
-      await tester.pumpAndSettle();
-      expect(find.text('Это первая страница'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('back_to_page1')));
+    await tester.pumpAndSettle();
+    expect(find.text('Это первая страница'), findsOneWidget);
 
-      // Чисто размонтируем
-      await tester.pumpWidget(const SizedBox.shrink());
-      await tester.pump();
-    },
-  );
+    // Чисто размонтируем
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+  });
 
-  testWidgets(
-    'Switching back to EN also updates the page below in stack',
-        (tester) async {
-      await pumpMvpApp(tester);
+  testWidgets('Switching back to EN also updates the page below in stack', (
+    tester,
+  ) async {
+    await pumpMvpApp(tester);
 
-      expect(find.text('This is page one'), findsOneWidget);
+    expect(find.text('This is page one'), findsOneWidget);
 
-      await tester.tap(find.byKey(const Key('goto_page2')));
-      await tester.pumpAndSettle();
-      expect(find.text('This is page two'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('goto_page2')));
+    await tester.pumpAndSettle();
+    expect(find.text('This is page two'), findsOneWidget);
 
-      await tester.tap(find.byKey(const Key('btn_ru_page2')));
-      await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('btn_ru_page2')));
+    await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const Key('btn_en_page2')));
-      await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('btn_en_page2')));
+    await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const Key('back_to_page1')));
-      await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('back_to_page1')));
+    await tester.pumpAndSettle();
 
-      expect(find.text('This is page one'), findsOneWidget);
-      expect(find.text('Это первая страница'), findsNothing);
+    expect(find.text('This is page one'), findsOneWidget);
+    expect(find.text('Это первая страница'), findsNothing);
 
-      await tester.pumpWidget(const SizedBox.shrink());
-      await tester.pump();
-    },
-  );
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+  });
 }
